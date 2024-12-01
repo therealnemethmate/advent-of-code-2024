@@ -14,19 +14,20 @@ function sortCallback(a, b) {
  */
 function solve(input) {
     const rows = input.toString().split('\n').filter(Boolean);
-    const cols = rows.reduce((acc, curr) => {
-        const [first, second] = curr.split('   ');
-        acc[0].push(Number(first));
-        acc[1].push(Number(second));
-        return acc;
-    }, [[], []]);
+    const [leftList, rightList] = rows
+        .reduce((acc, curr) => {
+            curr.split('   ').forEach((v, i) => acc[i].push(v))
+            return acc;
+        }, [[], []])
+        .map((col) => col.toSorted(sortCallback));
     
-    const [firstCol, secondCol] = cols.map((col) => col.toSorted(sortCallback));
-    return firstCol.reduce((acc, curr, i) => {
-        return acc + Math.abs(curr - secondCol[i]);
+    return leftList.reduce((acc, curr, i) => {
+        return acc + Math.abs(curr - rightList[i]);
     }, 0)
 }
 
 const input = await fs.readFile('input.txt');
 
+console.time('Execution time');
 console.log(`The solution is: ${solve(input)}`);
+console.timeEnd('Execution time');

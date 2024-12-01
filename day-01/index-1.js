@@ -8,7 +8,6 @@ const countInListCache = {}
  * @returns {Number}
  */
 function countInList(value, list) {
-    if(countInListCache[value] !== undefined) return countInListCache[value];
     const count = list.filter((elem) => elem === value).length;
     countInListCache[value] = count;
     return count;
@@ -20,17 +19,20 @@ function countInList(value, list) {
 function solve(input) {
     const rows = input.toString().split('\n').filter(Boolean);
     const [firstList, secondList] = rows.reduce((acc, curr) => {
-        const [first, second] = curr.split('   ');
-        acc[0].push(Number(first));
-        acc[1].push(Number(second));
+        curr.split('   ').forEach((v, i) => acc[i].push(Number(v)))
         return acc;
     }, [[], []]);
 
     return firstList.reduce((acc, curr) => {
-        return acc + countInList(curr, secondList) * curr;
+        const count = countInListCache[curr] !== undefined
+            ? countInListCache[curr]
+            : countInList(curr, secondList);
+        return acc + count * curr;
     }, 0)
 }
 
 const input = await fs.readFile('input.txt');
 
+console.time('Execution time');
 console.log(`The solution is: ${solve(input)}`);
+console.timeEnd('Execution time');
