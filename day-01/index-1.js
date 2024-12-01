@@ -17,21 +17,25 @@ function countInList(value, list) {
  * @param {String} input
  */
 function solve(input) {
-    const rows = input.toString().split('\n').filter(Boolean);
-    const [firstList, secondList] = rows.reduce((acc, curr) => {
-        curr.split('   ').forEach((v, i) => acc[i].push(Number(v)))
-        return acc;
-    }, [[], []]);
+    const [leftList, rightList] = input
+        .split('\n')
+        .reduce((acc, row) => {
+            if (!row) return acc;
+            const [firstElem, secondElem] = row.split('   ');
+            acc[0].push(Number(firstElem));
+            acc[1].push(Number(secondElem));
+            return acc;
+        }, [[], []]);
 
-    return firstList.reduce((acc, curr) => {
+    return leftList.reduce((acc, curr) => {
         const count = countInListCache[curr] !== undefined
             ? countInListCache[curr]
-            : countInList(curr, secondList);
+            : countInList(curr, rightList);
         return acc + count * curr;
     }, 0)
 }
 
-const input = await fs.readFile('input.txt');
+const input = (await fs.readFile('input.txt')).toString();
 
 console.time('Execution time');
 console.log(`The solution is: ${solve(input)}`);
