@@ -1,22 +1,12 @@
-import * as fs from 'fs/promises';
+const countInListCache: Record<string, number> = {}
 
-const countInListCache = {}
-
-/**
- * @param {Number} value
- * @param {Number[]} list
- * @returns {Number}
- */
-function countInList(value, list) {
+function countInList(value: number, list: number[]) {
     const count = list.filter((elem) => elem === value).length;
     countInListCache[value] = count;
     return count;
 }
 
-/**
- * @param {String} input
- */
-function solve(input) {
+function solve(input: string) {
     const [leftList, rightList] = input
         .split('\n')
         .reduce((acc, row) => {
@@ -25,7 +15,7 @@ function solve(input) {
             acc[0].push(Number(firstElem));
             acc[1].push(Number(secondElem));
             return acc;
-        }, [[], []]);
+        }, [[] as number[], [] as number[]]);
 
     return leftList.reduce((acc, curr) => {
         const count = countInListCache[curr] !== undefined
@@ -35,8 +25,8 @@ function solve(input) {
     }, 0)
 }
 
-const input = (await fs.readFile('input.txt')).toString();
-
 console.time('Execution time');
-console.log(`The solution is: ${solve(input)}`);
+console.log(`The solution is: ${solve(
+    (await Deno.readTextFile('./day-01/input.txt'))
+)}`);
 console.timeEnd('Execution time');
