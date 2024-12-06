@@ -31,19 +31,19 @@ function accumulate(prev: Stage, n: number) {
     return { ...prev, safe: false };
 }
 
-function solve(input: string) {
+export function solve(input: string) {
     const rows = input.split('\n').map((row) => row.split(' ').map(Number));
     return rows.filter((row) => {
         if (!row.some(Boolean)) return false;
         const stage: Stage = { safe: true };
         return row.reduce(accumulate, stage).safe;
-    });
+    }).length;
 }
 
 console.time('Execution time');
 console.log(`The solution is: ${
     solve(
         await Deno.readTextFile('./day-02/input.txt'),
-    ).length
+    )
 }`);
 console.timeEnd('Execution time');

@@ -31,7 +31,7 @@ function accumulate(prev: Stage, n: number) {
     return { ...prev, safe: false };
 }
 
-function solve(input: string) {
+export function solve(input: string) {
     const rows = input
         .split('\n').map((row) => row.split(' ').map(Number))
         .filter((row) => row.some(Boolean));

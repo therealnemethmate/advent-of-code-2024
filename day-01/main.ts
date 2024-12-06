@@ -1,4 +1,4 @@
-function solve(input: string) {
+export function solve(input: string) {
     const [leftList, rightList] = input
         .split('\n')
         .reduce((acc, row) => {
