@@ -32,18 +32,32 @@ function accumulate(prev: Stage, n: number) {
 }
 
 function solve(input: string) {
-    const rows = input.split('\n').map((row) => row.split(' ').map(Number));
-    return rows.filter((row) => {
+    const rows = input
+        .split('\n').map((row) => row.split(' ').map(Number))
+        .filter((row) => row.some(Boolean));
+
+    const maxRowLength = rows.reduce((max, curr) => curr.length > max ? curr.length : max, 0);    
+    let unsafeRows = rows.filter((row) => {
         if (!row.some(Boolean)) return false;
         const stage: Stage = { safe: true };
-        return row.reduce(accumulate, stage).safe;
+        return !row.reduce(accumulate, stage).safe;
     });
+
+    for (let i = 0; i <= maxRowLength; i++) {
+        unsafeRows = unsafeRows.filter((row) => {
+            if (!row.some(Boolean)) return false;
+            const stage: Stage = { safe: true };
+            return !row.filter((_, k) => k !== i).reduce(accumulate, stage).safe;
+        });
+    }
+
+    return rows.length - unsafeRows.length;
 }
 
 console.time('Execution time');
 console.log(`The solution is: ${
     solve(
         await Deno.readTextFile('./day-02/input.txt'),
-    ).length
+    )
 }`);
 console.timeEnd('Execution time');
