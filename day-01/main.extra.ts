@@ -7,15 +7,12 @@ function countInList(value: number, list: number[]) {
 }
 
 export function solve(input: string) {
+    const stage: number[][] = [[], []]
     const [leftList, rightList] = input
         .split('\n')
-        .reduce((acc, row) => {
-            if (!row) return acc;
-            const [firstElem, secondElem] = row.split('   ');
-            acc[0].push(Number(firstElem));
-            acc[1].push(Number(secondElem));
-            return acc;
-        }, [[] as number[], [] as number[]]);
+        .filter(Boolean)
+        .reduce((acc, row) => row.split('   ').map((n, i) => acc[i].concat(Number(n))), stage)
+        .map((col) => col.toSorted((a, b) => a - b));
 
     return leftList.reduce((acc, curr) => {
         const count = countInListCache[curr] !== undefined
