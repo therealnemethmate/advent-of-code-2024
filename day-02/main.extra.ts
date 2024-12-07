@@ -36,7 +36,10 @@ export function solve(input: string) {
         .split('\n').map((row) => row.split(' ').map(Number))
         .filter((row) => row.some(Boolean));
 
-    const maxRowLength = rows.reduce((max, curr) => curr.length > max ? curr.length : max, 0);    
+    const maxRowLength = rows.reduce(
+        (max, curr) => curr.length > max ? curr.length : max,
+        0,
+    );
     let unsafeRows = rows.filter((row) => {
         if (!row.some(Boolean)) return false;
         const stage: Stage = { safe: true };
@@ -47,7 +50,8 @@ export function solve(input: string) {
         unsafeRows = unsafeRows.filter((row) => {
             if (!row.some(Boolean)) return false;
             const stage: Stage = { safe: true };
-            return !row.filter((_, k) => k !== i).reduce(accumulate, stage).safe;
+            return !row.filter((_, k) => k !== i).reduce(accumulate, stage)
+                .safe;
         });
     }
 

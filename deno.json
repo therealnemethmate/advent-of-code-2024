@@ -5,7 +5,9 @@
     "start:01": "deno run --allow-read day-01/main.ts",
     "start:01:extra": "deno run --allow-read day-01/main-extra.ts",
     "start:02": "deno run --allow-read day-02/main.ts",
-    "start:02:extra": "deno run --allow-read day-02/main-extra.ts"
+    "start:02:extra": "deno run --allow-read day-02/main-extra.ts",
+    "start:03": "deno run --allow-read day-03/main.ts",
+    "start:03:extra": "deno run --allow-read day-03/main-extra.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
